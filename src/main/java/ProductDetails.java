@@ -52,14 +52,20 @@ public class ProductDetails extends HttpServlet {
 			  
 			  ResultSet rst;
 			      		      
-			  rst = stmt.executeQuery("select * from eproduct where ID="+productID);
-			  
-			  out.println("Details of the Product are:<br>");
-			  while (rst.next()) {
-				  out.println("Product ID: " + rst.getInt("ID") + "<BR>Product Name: " + rst.getString("name") +
-						  "<BR>Product Price: " + rst.getBigDecimal("price") +
-						  "<BR>Product Added On: " +rst.getDate("date_added") + "<Br>");
+			  rst = stmt.executeQuery("select * from eproduct where ID="+productID);			  
+			  			  
+			  if(rst.next()) {
+//				  while (rst.next()) {
+				  out.println("Details of the Product are:<br>");
+					  out.println("Product ID: " + rst.getInt("ID") + "<BR>Product Name: " + rst.getString("name") +
+							  "<BR>Product Price: " + rst.getBigDecimal("price") +
+							  "<BR>Product Added On: " +rst.getDate("date_added") + "<Br>");
+//				  }				  
+			  }else {
+				  request.getRequestDispatcher("index.html").include(request, response);
+				  out.println("<SPAN style='color:red'>Invalid Product ID</SPAN>");
 			  }
+			  
 		} catch (ClassNotFoundException | IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
